@@ -8,14 +8,13 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marvel.talentomobile.app.R
 import com.marvel.talentomobile.app.databinding.HomeFragmentBinding
+import com.marvel.talentomobile.app.ui.detail.DetailFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -25,10 +24,6 @@ class HomeFragment : Fragment() {
     //Binding
     private var _binding: HomeFragmentBinding? = null
     private val binding get() = _binding!!
-
-    companion object {
-        fun newInstance() = HomeFragment()
-    }
 
     //Viewmodel
     private val homeViewModel: HomeViewModel by activityViewModels()
@@ -50,8 +45,10 @@ class HomeFragment : Fragment() {
 
         //Adapter
         homeListAdapter = HomeListAdapter { marvelCharacter ->
-            //setFragmentResult("homeBundleToSearch", bundleOf("bubbleFilter" to bubbleFilter))
-            //findNavController().navigate(R.id.action_home_to_search_results)
+            setFragmentResult("homeBundleToDetail",
+                bundleOf("marvelCharacter" to marvelCharacter)
+            )
+            findNavController().navigate(R.id.action_home_to_detail)
         }
 
         //Recycler

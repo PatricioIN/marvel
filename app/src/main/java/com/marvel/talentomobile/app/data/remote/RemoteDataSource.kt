@@ -8,5 +8,5 @@ class RemoteDataSource @Inject constructor(
 ): BaseDataSource() {
     suspend fun characters(limit: Int, offset: Int) = getResult {
         marvelService.getCharacters("name", limit, offset) }
-    suspend fun character(characterID: String) = getResult { marvelService.getCharacterDetail(characterID) }
+    suspend fun character(characterID: Int) = getResult { marvelService.getCharacterDetail(characterID) }
 }

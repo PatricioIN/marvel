@@ -14,6 +14,6 @@ interface IMarvelService {
 
     @GET(ApiEndPoints.CHARACTER_DETAIL_URL)
     suspend fun getCharacterDetail(
-        @Path("characterID") characterID: String
+        @Path("characterID") characterID: Int
     ): Response<ResponseDTO>
 }

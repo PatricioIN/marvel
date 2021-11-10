@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class DetailFragment : Fragment() {
 
     //Binding
     private var _binding: HomeFragmentBinding? = null

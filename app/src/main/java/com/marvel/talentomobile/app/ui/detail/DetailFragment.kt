@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.ViewModelProvider
 import com.marvel.talentomobile.app.data.model.MarvelCharacter
 import com.marvel.talentomobile.app.databinding.DetailFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,26 +19,43 @@ class DetailFragment : Fragment() {
     private lateinit var binding: DetailFragmentBinding
 
     //Viewmodel
-    private val detailViewModel: DetailViewModel by activityViewModels()
+    private lateinit var detailViewModel: DetailViewModel
+
+    //Bottom Sheets
+    private var bottomSheetComics = BottomSheetComics()
+
+    //Variables
+    var marvelCharacter: MarvelCharacter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DetailFragmentBinding.inflate(inflater, container, false)
         setFragmentResultListener("homeBundleToDetail") { _, bundle ->
-            val marvelCharacter: MarvelCharacter? = bundle.getParcelable("marvelCharacter")
+            marvelCharacter = bundle.getParcelable("marvelCharacter")
             marvelCharacter?.let { detailViewModel.getMarvelCharacter(it.id) }
         }
+        setUpViewModels()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        detailViewModel.marvelCharacterDetail.observe(viewLifecycleOwner, { marvelCharacterDetail ->
-            updateUI(marvelCharacterDetail[0])
-        })
+        binding.showComicsButton.setOnClickListener {
+            showBottomSheetComics()
+        }
+    }
+    private fun setUpViewModels() {
+        detailViewModel = ViewModelProvider(this)[DetailViewModel::class.java]
+        binding.viewModel = detailViewModel
+        binding.lifecycleOwner = this
     }
 
-    private fun updateUI(marvelCharacter: MarvelCharacter) = with(binding) {
-        marvelCharName.text = marvelCharacter.name
+    private fun showBottomSheetComics(){
+        if(bottomSheetComics.isAdded) return
+        bottomSheetComics = BottomSheetComics()
+        val bundle = Bundle()
+        bundle.putParcelableArrayList("comics", marvelCharacter?.comics?.items)
+        bottomSheetComics.arguments = bundle
+        bottomSheetComics.show(parentFragmentManager, BottomSheetComics.TAG)
     }
 }

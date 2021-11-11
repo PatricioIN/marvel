@@ -18,14 +18,13 @@ class DetailViewModel @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) : ViewModel() {
 
-    var marvelCharacterDetail = MutableLiveData<List<MarvelCharacter>>()
+    var marvelCharacterDetail = MutableLiveData<MarvelCharacter>()
 
     fun getMarvelCharacter(marvelCharacterID: Int) = viewModelScope.launch {
         val remoteData = remoteDataSource.character(marvelCharacterID)
         when (remoteData.status) {
             StatusRequest.Status.SUCCESS -> {
-                println(remoteData.data)
-                marvelCharacterDetail.value = remoteData.data?.data?.results
+                marvelCharacterDetail.value = remoteData.data?.data?.results?.get(0)
             }
             StatusRequest.Status.ERROR -> println("Call error")
             StatusRequest.Status.LOADING -> println("Loading data")

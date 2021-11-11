@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marvel.talentomobile.app.R
 import com.marvel.talentomobile.app.databinding.HomeFragmentBinding
@@ -56,6 +57,10 @@ class HomeFragment : Fragment() {
             adapter = homeListAdapter
             layoutManager = LinearLayoutManager(context)
             itemAnimator = null
+            addItemDecoration(DividerItemDecoration(
+                marvelCharsRecycler.context,
+                (marvelCharsRecycler.layoutManager as LinearLayoutManager).orientation
+            ))
         }
 
         //Get marvel characters

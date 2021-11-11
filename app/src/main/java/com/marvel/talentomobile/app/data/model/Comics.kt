@@ -7,6 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class Comics(
     val available: Int,
     val collectionURI: String,
-    val items: List<Item>,
+    val items: ArrayList<Item> = arrayListOf(),
     val returned: Int
 ): Parcelable

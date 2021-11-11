@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
+import com.marvel.talentomobile.app.R
 import com.marvel.talentomobile.app.data.model.MarvelCharacter
 import com.marvel.talentomobile.app.databinding.DetailFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,11 +53,15 @@ class DetailFragment : Fragment() {
     }
 
     private fun showBottomSheetComics(){
-        if(bottomSheetComics.isAdded) return
-        bottomSheetComics = BottomSheetComics()
-        val bundle = Bundle()
-        bundle.putParcelableArrayList("comics", marvelCharacter?.comics?.items)
-        bottomSheetComics.arguments = bundle
-        bottomSheetComics.show(parentFragmentManager, BottomSheetComics.TAG)
+        if(marvelCharacter?.comics?.items?.isEmpty()!!){
+            Toast.makeText(context, getString(R.string.not_appear), Toast.LENGTH_SHORT).show()
+        }else{
+            if(bottomSheetComics.isAdded) return
+            bottomSheetComics = BottomSheetComics()
+            val bundle = Bundle()
+            bundle.putParcelableArrayList("comics", marvelCharacter?.comics?.items)
+            bottomSheetComics.arguments = bundle
+            bottomSheetComics.show(parentFragmentManager, BottomSheetComics.TAG)
+        }
     }
 }

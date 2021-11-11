@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -62,18 +63,13 @@ class BottomSheetComics : BottomSheetDialogFragment() {
         comicsRecyclerView.apply {
             adapter = comicsListAdapter
             layoutManager = LinearLayoutManager(context)
-            itemAnimator = null
-            comicsRecyclerView.addItemDecoration(DividerItemDecoration(
-                comicsRecyclerView.context,
-                (comicsRecyclerView.layoutManager as LinearLayoutManager).orientation
-            ))
         }
     }
 
     private fun setUpAdapters(comics: ArrayList<Item>?) {
         //Recycler
         comicsListAdapter = ComicsListAdapter { comic ->
-           println(comic)
+            Toast.makeText(context, comic.name, Toast.LENGTH_LONG).show()
         }
         comics?.let { comicsListAdapter.setData(it) }
     }

@@ -2,6 +2,7 @@ package com.marvel.talentomobile.app.ui.detail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,7 @@ class ComicsListAdapter(private val listener: (Item) -> Unit) : ListAdapter<Item
     class ViewHolder(private val itemBinding: ItemHomeRecyclerBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(comic: Item) {
             itemBinding.name.text = comic.name
+            itemBinding.image.isVisible = false
         }
     }
 
